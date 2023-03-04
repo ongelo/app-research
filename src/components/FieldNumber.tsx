@@ -1,5 +1,6 @@
 import { MantineStyleSystemProps, NumberInput, TextInput } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form/lib/types";
+import FieldLabel from "./FieldLabel";
 
 interface Props extends MantineStyleSystemProps {
   name: string;
@@ -17,7 +18,7 @@ const FieldNumber: React.FC<Props> = ({
 }) => {
   return (
     <NumberInput
-      label={label}
+      label={<FieldLabel label={label} name={name} />}
       placeholder={placeholder}
       min={0}
       max={99}

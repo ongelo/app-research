@@ -1,4 +1,5 @@
-import { TextInput } from "@mantine/core";
+import { Code, Flex, Text, TextInput } from "@mantine/core";
+import FieldLabel from "./FieldLabel";
 
 const FieldText: React.FC<FieldProps> = ({
   name,
@@ -9,7 +10,7 @@ const FieldText: React.FC<FieldProps> = ({
 }) => {
   return (
     <TextInput
-      label={label}
+      label={<FieldLabel label={label} name={name} />}
       placeholder={placeholder}
       size="lg"
       {...form.getInputProps(name)}

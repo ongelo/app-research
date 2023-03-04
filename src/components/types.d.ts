@@ -1,8 +1,7 @@
 type MantineStyleProps = import("@mantine/core").MantineStyleSystemProps;
 
 type FormValues = {
-  name: string;
-  age: number;
+  [key: string]: string | number;
 };
 
 interface FieldProps extends MantineStyleProps {

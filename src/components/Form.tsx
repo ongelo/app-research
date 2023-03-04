@@ -1,29 +1,31 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
 import { Button, Divider, Box, Center, Stack } from "@mantine/core";
-import CodeEditor from "./CodeEditor";
+import CodeEditor, { CodeEditorProps } from "./CodeEditor";
 import FieldText from "./FieldText";
 import { CirclePlus } from "tabler-icons-react";
 import FieldNumber from "./FieldNumber";
 import ModalAddField from "./ModalAddField";
 
 export enum FieldType {
-  Text,
-  Number,
+  Text = "text",
+  Number = "number",
+  Code = "code",
 }
 
+type RegularFieldProps = Omit<FieldProps, "form">;
 export interface Field {
+  key: string;
   type: FieldType;
-  props: Omit<FieldProps, "form">;
+  props: RegularFieldProps | CodeEditorProps;
 }
 
 const Form = () => {
-  const form = useForm<FormValues>({
-    initialValues: { name: "", age: 0 },
-  });
+  const form = useForm<FormValues>();
 
   const [fields, setFields] = useState<Field[]>([
     {
+      key: "name",
       type: FieldType.Text,
       props: {
         name: "name",
@@ -32,11 +34,19 @@ const Form = () => {
       },
     },
     {
+      key: "age",
       type: FieldType.Number,
       props: {
         name: "age",
         label: "Age",
         placeholder: "",
+      },
+    },
+    {
+      key: "code",
+      type: FieldType.Code,
+      props: {
+        formValues: {},
       },
     },
   ]);
@@ -52,30 +62,34 @@ const Form = () => {
 
   return (
     <>
-      <CodeEditor formValues={form.values} />
-      <Divider size="md" my="xl" />
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Stack spacing="lg">
-          {fields.map(({ type, props }) => {
-            switch (type) {
-              case FieldType.Text:
-                return <FieldText key={props.name} form={form} {...props} />;
-              case FieldType.Number:
-                return <FieldNumber key={props.name} form={form} {...props} />;
-            }
-          })}
-        </Stack>
+        <Box pb={100}>
+          <Stack spacing="lg">
+            {fields.map(({ key, type, props }) => {
+              switch (type) {
+                case FieldType.Text:
+                  props = props as RegularFieldProps;
+                  return <FieldText key={key} form={form} {...props} />;
+                case FieldType.Number:
+                  props = props as RegularFieldProps;
+                  return <FieldNumber key={key} form={form} {...props} />;
+                case FieldType.Code:
+                  return <CodeEditor key={key} formValues={form.values} />;
+              }
+            })}
+          </Stack>
 
-        <Center h={100}>
-          <Button
-            type="button"
-            color="green.7"
-            fullWidth
-            onClick={() => setShowAddFieldForm(true)}
-          >
-            <CirclePlus size="2em" />
-          </Button>
-        </Center>
+          <Center h={100}>
+            <Button
+              type="button"
+              color="green.7"
+              fullWidth
+              onClick={() => setShowAddFieldForm(true)}
+            >
+              <CirclePlus size="2em" />
+            </Button>
+          </Center>
+        </Box>
 
         <Box pos="fixed" bottom={0} right={0} left={0}>
           <Button type="submit" size="xl" mt="sm" fullWidth>
