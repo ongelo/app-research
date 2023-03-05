@@ -1,5 +1,6 @@
 import { MantineStyleSystemProps, NumberInput, TextInput } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form/lib/types";
+import Block from "./Block";
 import FieldLabel from "./FieldLabel";
 
 interface Props extends MantineStyleSystemProps {

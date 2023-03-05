@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
-import { Button, Divider, Box, Center, Stack } from "@mantine/core";
+import { Button, Box, Center, Stack } from "@mantine/core";
 import CodeEditor, { CodeEditorProps } from "./CodeEditor";
 import FieldText from "./FieldText";
 import { CirclePlus } from "tabler-icons-react";
 import FieldNumber from "./FieldNumber";
 import ModalAddField from "./ModalAddField";
+import Block from "./Block";
 
 export enum FieldType {
   Text = "text",
@@ -43,7 +44,7 @@ const Form = () => {
       },
     },
     {
-      key: "code",
+      key: `code-${new Date().getTime()}`,
       type: FieldType.Code,
       props: {
         formValues: {},
@@ -60,23 +61,39 @@ const Form = () => {
     setFields([...fields, field]);
   };
 
+  const handleDeleteField = (fieldKeyToDelete: string) => {
+    const updatedFields = fields.filter(
+      (field) => field.key !== fieldKeyToDelete
+    );
+    setFields(updatedFields);
+  };
+
+  const getFieldComponent = ({ type, props }: Field) => {
+    switch (type) {
+      case FieldType.Text:
+        props = props as RegularFieldProps;
+        return <FieldText form={form} {...props} />;
+      case FieldType.Number:
+        props = props as RegularFieldProps;
+        return <FieldNumber form={form} {...props} />;
+      case FieldType.Code:
+        return <CodeEditor formValues={form.values} />;
+    }
+  };
+
   return (
     <>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Box pb={100}>
           <Stack spacing="lg">
-            {fields.map(({ key, type, props }) => {
-              switch (type) {
-                case FieldType.Text:
-                  props = props as RegularFieldProps;
-                  return <FieldText key={key} form={form} {...props} />;
-                case FieldType.Number:
-                  props = props as RegularFieldProps;
-                  return <FieldNumber key={key} form={form} {...props} />;
-                case FieldType.Code:
-                  return <CodeEditor key={key} formValues={form.values} />;
-              }
-            })}
+            {fields.map((field) => (
+              <Block
+                key={field.key}
+                onDelete={() => handleDeleteField(field.key)}
+              >
+                {getFieldComponent(field)}
+              </Block>
+            ))}
           </Stack>
 
           <Center h={100}>
