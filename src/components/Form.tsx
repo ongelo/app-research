@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "@mantine/form";
 import { Button, Box, Center, Stack } from "@mantine/core";
 import CodeEditor, { CodeEditorProps } from "./CodeEditor";
@@ -7,6 +7,9 @@ import { CirclePlus } from "tabler-icons-react";
 import FieldNumber from "./FieldNumber";
 import ModalAddField from "./ModalAddField";
 import Block from "./Block";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { useListState } from "@mantine/hooks";
 
 export enum FieldType {
   Text = "text",
@@ -24,7 +27,7 @@ export interface Field {
 const Form = () => {
   const form = useForm<FormValues>();
 
-  const [fields, setFields] = useState<Field[]>([
+  const [fields, fieldsHandler] = useListState<Field>([
     {
       key: "name",
       type: FieldType.Text,
@@ -58,14 +61,11 @@ const Form = () => {
   };
 
   const handleAddField = (field: Field) => {
-    setFields([...fields, field]);
+    fieldsHandler.append(field);
   };
 
-  const handleDeleteField = (fieldKeyToDelete: string) => {
-    const updatedFields = fields.filter(
-      (field) => field.key !== fieldKeyToDelete
-    );
-    setFields(updatedFields);
+  const handleDeleteField = (fieldIndexToDelete: number) => {
+    fieldsHandler.remove(fieldIndexToDelete);
   };
 
   const getFieldComponent = ({ type, props }: Field) => {
@@ -81,20 +81,29 @@ const Form = () => {
     }
   };
 
+  const moveCard = (fromIndex: number, toIndex: number) => {
+    fieldsHandler.reorder({ from: fromIndex, to: toIndex });
+  };
+
   return (
     <>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Box pb={100}>
-          <Stack spacing="lg">
-            {fields.map((field) => (
-              <Block
-                key={field.key}
-                onDelete={() => handleDeleteField(field.key)}
-              >
-                {getFieldComponent(field)}
-              </Block>
-            ))}
-          </Stack>
+          <DndProvider backend={HTML5Backend}>
+            <Stack spacing="lg">
+              {fields.map((field, index) => (
+                <Block
+                  key={field.key}
+                  id={field.key}
+                  index={index}
+                  onMove={moveCard}
+                  onDelete={() => handleDeleteField(index)}
+                >
+                  {getFieldComponent(field)}
+                </Block>
+              ))}
+            </Stack>
+          </DndProvider>
 
           <Center h={100}>
             <Button
