@@ -17,6 +17,7 @@ import Block from "./Block";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useListState, useLocalStorage, useWindowScroll } from "@mantine/hooks";
+import { FieldType } from "./enums";
 
 const DEFAULT_CODE = `
 const { name, age } = formValues;
