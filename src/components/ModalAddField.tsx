@@ -1,6 +1,6 @@
 import { Button, Modal, Select, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { Field, FieldType } from "./Form";
+import { Field } from "./Form";
 
 interface AddFieldFormValues extends Omit<FieldProps, "form"> {
   fieldType: FieldType;
@@ -21,13 +21,13 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
       label: "",
       placeholder: "",
     },
-    validate: ({ fieldType, name, label }) =>
-      isCodeFieldType(fieldType)
-        ? {}
-        : {
-            name: !name ? "Field must have an identifier" : null,
-            label: !label ? "Field must have a label" : null,
-          },
+    validate: ({ fieldType, name, label }) => ({
+      name: !name ? "Field must have an identifier" : null,
+      label:
+        !isCodeFieldType(fieldType) && !label
+          ? "Field must have a label"
+          : null,
+    }),
   });
 
   const handleSubmit = (values: AddFieldFormValues) => {
@@ -56,14 +56,15 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
             {...form.getInputProps("fieldType")}
           />
 
+          <TextInput
+            name="name"
+            label="Field identifier"
+            placeholder="personName"
+            {...form.getInputProps("name")}
+          />
+
           {!isCodeFieldType(form.values.fieldType) && (
             <>
-              <TextInput
-                name="name"
-                label="Field identifier"
-                placeholder="personName"
-                {...form.getInputProps("name")}
-              />
               <TextInput
                 name="label"
                 label="Field label"

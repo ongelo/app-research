@@ -1,22 +1,7 @@
-import { useState } from "react";
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import { Button, Code, Text } from "@mantine/core";
-import Block from "./Block";
-
-const DEFAULT_CODE = `
-const { name, age } = formValues;
-
-let welcomeMessage = \`Hi there, \${name}!\`
-
-if (age < 18) {
-  welcomeMessage = \`\${welcomeMessage} You have to be 18+ to use this site.\`
-} else {
-  welcomeMessage = \`\${welcomeMessage} You are welcome to use this site.\`
-}
-
-console.log(welcomeMessage);
-`;
+import { UseFormReturnType } from "@mantine/form";
 
 const ReactCodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -24,15 +9,17 @@ const ReactCodeEditor = dynamic(
 );
 
 export type CodeEditorProps = {
+  name: string;
   formValues: FormValues;
+  form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
 };
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ formValues }) => {
-  const [code, setCode] = useState(DEFAULT_CODE);
+const CodeEditor: React.FC<CodeEditorProps> = ({ name, formValues, form }) => {
+  const inputProps = form.getInputProps(name);
 
   const handleSubmit = () => {
     const codeWrapper = () => `{
-        return function main(formValues) { ${code} };
+        return function main(formValues) { ${inputProps.value} };
     }`;
     const func = new Function(codeWrapper());
     func()(formValues);
@@ -46,10 +33,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ formValues }) => {
         <Code>formValues.personName</Code>).
       </Text>
       <ReactCodeEditor
-        value={code}
         language="js"
         placeholder="Please enter JS code."
-        onChange={(event) => setCode(event.target.value)}
         padding={12}
         style={{
           marginTop: 12,
@@ -59,8 +44,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ formValues }) => {
           fontFamily:
             "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
         }}
+        {...inputProps}
       />
-      <Button onClick={handleSubmit}>Submit code</Button>
+      <Button onClick={handleSubmit}>Run code</Button>
     </>
   );
 };
