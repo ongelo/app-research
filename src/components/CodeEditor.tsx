@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import { Button, Code, Text } from "@mantine/core";
-import { UseFormReturnType } from "@mantine/form";
 
 const ReactCodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -40,7 +39,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ name, formValues, form }) => {
         }}
         {...inputProps}
       />
-      <Button onClick={handleSubmit}>Run code</Button>
+      <Button variant="light" onClick={handleSubmit}>
+        Run code
+      </Button>
     </>
   );
 };

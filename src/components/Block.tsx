@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Paper } from "@mantine/core";
-import { PropsWithChildren, useRef } from "react";
+import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import type { Identifier, XYCoord } from "dnd-core";
 import { ArrowsMove, Trash } from "tabler-icons-react";

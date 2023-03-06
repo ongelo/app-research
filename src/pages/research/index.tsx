@@ -1,15 +1,13 @@
 import Head from "@/components/Head";
+import Layout from "@/components/Layout";
 import ResearchBuilder from "@/components/ResearchBuilder";
-import { Container } from "@mantine/core";
 
 const ResearchPage = () => {
   return (
-    <>
+    <Layout>
       <Head title="Research" />
-      <Container size="xs" px="sm" pt="xl">
-        <ResearchBuilder />
-      </Container>
-    </>
+      <ResearchBuilder />
+    </Layout>
   );
 };
 

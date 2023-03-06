@@ -70,6 +70,15 @@ const Form = () => {
         label: "",
       },
     },
+    {
+      id: "gender",
+      type: BlockType.InputSelect,
+      details: {
+        name: "gender",
+        label: "Gender",
+        options: ["Male", "Female"],
+      },
+    },
   ]);
   const [showAddFieldForm, setShowAddFieldForm] = useState<boolean>(false);
 
@@ -121,7 +130,8 @@ const Form = () => {
           <Center h={100}>
             <Button
               type="button"
-              color="green.7"
+              variant="gradient"
+              gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
               fullWidth
               onClick={() => setShowAddFieldForm(true)}
             >
