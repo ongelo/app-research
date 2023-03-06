@@ -11,6 +11,10 @@ interface InputProps extends MantineStyleProps {
   placeholder?: string;
 }
 
+interface SelectInputProps extends InputProps {
+  options: string[];
+}
+
 type CodeEditorProps = {
   name: string;
   formValues: FormValues;
@@ -24,10 +28,11 @@ type ResearchForm = {
 };
 
 type InputDetails = Omit<InputProps, "form">;
+type SelectInputDetails = Omit<SelectInputProps, "form">;
 type CodeEditorDetails = Omit<CodeEditorProps, "form">;
 
 type Block = {
   id: string;
   type: BlockType;
-  details: InputDetails | CodeEditorDetails;
+  details: InputDetails | CodeEditorDetails | SelectInputDetails;
 };

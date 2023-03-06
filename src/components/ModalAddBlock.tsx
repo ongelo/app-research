@@ -4,6 +4,7 @@ import { BlockType } from "./enums";
 
 interface AddFieldFormValues extends Omit<InputProps, "form"> {
   blockType: BlockType;
+  selectOption?: string;
 }
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 
 const isCodeInputType = (type: BlockType) => type === BlockType.InputCode;
 const isPlainTextType = (type: BlockType) => type === BlockType.PlainText;
+const isSelectInputType = (type: BlockType) => type === BlockType.InputSelect;
 
 const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
   const form = useForm<AddFieldFormValues>({
@@ -21,12 +23,17 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
       name: "",
       label: "",
       placeholder: "",
+      selectOption: "",
     },
-    validate: ({ blockType, name, label }) => ({
+    validate: ({ blockType, name, label, selectOption }) => ({
       name: !name ? "Field must have an identifier" : null,
       label:
         !isCodeInputType(blockType) && !isPlainTextType(blockType) && !label
           ? "Field must have a label"
+          : null,
+      selectOption:
+        isSelectInputType(blockType) && !selectOption
+          ? "Field must have select option"
           : null,
     }),
   });
@@ -37,6 +44,7 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
       type: values.blockType,
       details: {
         ...values,
+        options: values.selectOption ? [values.selectOption] : undefined,
       },
     });
     onClose();
@@ -53,6 +61,7 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
               { value: BlockType.InputText, label: "Text input" },
               { value: BlockType.InputNumber, label: "Number input" },
               { value: BlockType.InputCode, label: "Custom code" },
+              { value: BlockType.InputSelect, label: "Select input" },
               { value: BlockType.PlainText, label: "Plain text" },
             ]}
             {...form.getInputProps("blockType")}
@@ -82,6 +91,15 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
                 />
               </>
             )}
+
+          {isSelectInputType(form.values.blockType) && (
+            <TextInput
+              name="selectOption"
+              label="Enter a select option"
+              placeholder="Jack Smith"
+              {...form.getInputProps("selectOption")}
+            />
+          )}
 
           <Button type="submit" size="xl" mt="sm" fullWidth>
             Add block

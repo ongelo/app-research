@@ -3,6 +3,7 @@ import CodeEditor from "./CodeEditor";
 import { BlockType } from "./enums";
 import FieldNumber from "./FieldNumber";
 import FieldPlainText from "./FieldPlainText";
+import FieldSelect from "./FieldSelect";
 import FieldText from "./FieldText";
 
 type Props = {
@@ -27,6 +28,10 @@ const BlockContent: React.FC<Props> = ({ block: { type, details }, form }) => {
     case BlockType.PlainText: {
       const props = details as InputDetails;
       return <FieldPlainText form={form} {...props} />;
+    }
+    case BlockType.InputSelect: {
+      const props = details as SelectInputDetails;
+      return <FieldSelect form={form} {...props} />;
     }
     default:
       return null;

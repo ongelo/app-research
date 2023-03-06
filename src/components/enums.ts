@@ -3,4 +3,5 @@ export enum BlockType {
   InputText = "input-text",
   InputNumber = "input-number",
   InputCode = "input-code",
+  InputSelect = "input-select",
 }
