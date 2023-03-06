@@ -5,7 +5,7 @@ const ResearchBuilder = () => {
   return (
     <>
       <Title order={1} mb="lg">
-        Create research
+        Create a research
       </Title>
       <Form />
     </>

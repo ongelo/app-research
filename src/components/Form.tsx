@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
 import { Button, Box, Center, Stack } from "@mantine/core";
-import CodeEditor, { CodeEditorProps } from "./CodeEditor";
+import CodeEditor from "./CodeEditor";
 import FieldText from "./FieldText";
 import { CirclePlus } from "tabler-icons-react";
 import FieldNumber from "./FieldNumber";
@@ -26,19 +26,6 @@ if (age < 18) {
 
 console.log(welcomeMessage);
 `;
-
-type RegularFieldProps = Omit<FieldProps, "form">;
-export interface Field {
-  key: string;
-  type: FieldType;
-  props: RegularFieldProps | CodeEditorProps;
-}
-
-type ResearchForm = {
-  key: string;
-  type: FieldType;
-  value: string | number | null;
-};
 
 const Form = () => {
   const [success, setSuccess] = useState(false);

@@ -10,3 +10,16 @@ interface FieldProps extends MantineStyleProps {
   label: string;
   placeholder: string;
 }
+
+type RegularFieldProps = Omit<FieldProps, "form">;
+interface Field {
+  key: string;
+  type: FieldType;
+  props: RegularFieldProps | CodeEditorProps;
+}
+
+type ResearchForm = {
+  key: string;
+  type: FieldType;
+  value: string | number | null;
+};

@@ -1,7 +1,6 @@
 import { Button, Modal, Select, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { FieldType } from "./enums";
-import { Field } from "./Form";
 
 interface AddFieldFormValues extends Omit<FieldProps, "form"> {
   fieldType: FieldType;
