@@ -1,16 +1,9 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
-import {
-  Button,
-  Box,
-  Center,
-  Stack,
-  Notification,
-  Anchor,
-} from "@mantine/core";
+import { Button, Box, Center, Stack } from "@mantine/core";
 import CodeEditor, { CodeEditorProps } from "./CodeEditor";
 import FieldText from "./FieldText";
-import { Check, CirclePlus } from "tabler-icons-react";
+import { CirclePlus } from "tabler-icons-react";
 import FieldNumber from "./FieldNumber";
 import ModalAddField from "./ModalAddField";
 import Block from "./Block";
@@ -18,6 +11,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useListState, useLocalStorage, useWindowScroll } from "@mantine/hooks";
 import { FieldType } from "./enums";
+import AlertSuccess from "./AlertSuccess";
 
 const DEFAULT_CODE = `
 const { name, age } = formValues;
@@ -40,6 +34,12 @@ export interface Field {
   props: RegularFieldProps | CodeEditorProps;
 }
 
+type ResearchForm = {
+  key: string;
+  type: FieldType;
+  value: string | number | null;
+};
+
 const Form = () => {
   const [success, setSuccess] = useState(false);
   const form = useForm<FormValues>({
@@ -47,7 +47,7 @@ const Form = () => {
       code1: DEFAULT_CODE,
     },
   });
-  const [, setResearchForm] = useLocalStorage<FormValues>({
+  const [, setResearchForm] = useLocalStorage<ResearchForm[]>({
     key: "researchForm",
   });
   const [, scrollTo] = useWindowScroll();
@@ -84,8 +84,13 @@ const Form = () => {
   const [showAddFieldForm, setShowAddFieldForm] = useState<boolean>(false);
 
   const handleSubmit = (values: FormValues) => {
-    // TODO Merge `fields` and `values` to create an object with form values and their field types and any other meta data
-    setResearchForm(values);
+    const researchForm: ResearchForm[] = fields.map((field) => ({
+      key: field.key,
+      type: field.type,
+      value: values[field.key],
+    }));
+
+    setResearchForm(researchForm);
     setSuccess(true);
     scrollTo({ y: 0 });
   };
@@ -117,17 +122,7 @@ const Form = () => {
 
   return (
     <>
-      {success && (
-        <Notification
-          icon={<Check size="1rem" />}
-          title="Success!"
-          color="teal"
-          mb="lg"
-        >
-          Your research form has been saved. See{" "}
-          <Anchor href="research/preview">preview</Anchor>.
-        </Notification>
-      )}
+      {success && <AlertSuccess onClose={() => setSuccess(false)} />}
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Box pb={100}>

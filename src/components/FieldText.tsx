@@ -1,4 +1,4 @@
-import { Code, Flex, Text, TextInput } from "@mantine/core";
+import { TextInput } from "@mantine/core";
 import FieldLabel from "./FieldLabel";
 
 const FieldText: React.FC<FieldProps> = ({
