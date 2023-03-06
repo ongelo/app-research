@@ -3,3 +3,9 @@ export enum FieldType {
   Number = "number",
   Code = "code",
 }
+
+export enum BlockType {
+  Text = "text",
+  File = "file",
+  Input = "input",
+}

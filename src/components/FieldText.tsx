@@ -1,7 +1,7 @@
 import { TextInput } from "@mantine/core";
 import FieldLabel from "./FieldLabel";
 
-const FieldText: React.FC<FieldProps> = ({
+const FieldText: React.FC<InputProps> = ({
   name,
   form,
   label,

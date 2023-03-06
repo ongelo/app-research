@@ -2,13 +2,13 @@ import { Button, Modal, Select, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { FieldType } from "./enums";
 
-interface AddFieldFormValues extends Omit<FieldProps, "form"> {
+interface AddFieldFormValues extends Omit<InputProps, "form"> {
   fieldType: FieldType;
 }
 
 type Props = {
   onClose: () => void;
-  onSave: (field: Field) => void;
+  onSave: (field: Block) => void;
 };
 
 const isCodeFieldType = (type: FieldType) => type === FieldType.Code;
@@ -32,9 +32,9 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
 
   const handleSubmit = (values: AddFieldFormValues) => {
     onSave({
-      key: values.name,
+      id: values.name,
       type: values.fieldType,
-      props: {
+      details: {
         ...values,
       },
     });
@@ -81,7 +81,7 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
           )}
 
           <Button type="submit" size="xl" mt="sm" fullWidth>
-            Add field
+            Add block
           </Button>
         </Stack>
       </form>

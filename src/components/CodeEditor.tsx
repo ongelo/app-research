@@ -8,12 +8,6 @@ const ReactCodeEditor = dynamic(
   { ssr: false }
 );
 
-export type CodeEditorProps = {
-  name: string;
-  formValues: FormValues;
-  form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
-};
-
 const CodeEditor: React.FC<CodeEditorProps> = ({ name, formValues, form }) => {
   const inputProps = form.getInputProps(name);
 

@@ -5,7 +5,7 @@ import CodeEditor from "./CodeEditor";
 import FieldText from "./FieldText";
 import { CirclePlus } from "tabler-icons-react";
 import FieldNumber from "./FieldNumber";
-import ModalAddField from "./ModalAddField";
+import ModalAddBlock from "./ModalAddBlock";
 import Block from "./Block";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -39,29 +39,29 @@ const Form = () => {
   });
   const [, scrollTo] = useWindowScroll();
 
-  const [fields, fieldsHandler] = useListState<Field>([
+  const [blocks, blocksHandler] = useListState<Block>([
     {
-      key: "name",
+      id: "name",
       type: FieldType.Text,
-      props: {
+      details: {
         name: "name",
         label: "Name",
         placeholder: "Oguz Obama",
       },
     },
     {
-      key: "age",
+      id: "age",
       type: FieldType.Number,
-      props: {
+      details: {
         name: "age",
         label: "Age",
         placeholder: "",
       },
     },
     {
-      key: "code1",
+      id: "code1",
       type: FieldType.Code,
-      props: {
+      details: {
         name: "code1",
         label: "",
         placeholder: "",
@@ -71,10 +71,10 @@ const Form = () => {
   const [showAddFieldForm, setShowAddFieldForm] = useState<boolean>(false);
 
   const handleSubmit = (values: FormValues) => {
-    const researchForm: ResearchForm[] = fields.map((field) => ({
-      key: field.key,
+    const researchForm: ResearchForm[] = blocks.map((field) => ({
+      key: field.id,
       type: field.type,
-      value: values[field.key],
+      value: values[field.id],
     }));
 
     setResearchForm(researchForm);
@@ -82,29 +82,16 @@ const Form = () => {
     scrollTo({ y: 0 });
   };
 
-  const handleAddField = (field: Field) => {
-    fieldsHandler.append(field);
+  const handleAddField = (block: Block) => {
+    blocksHandler.append(block);
   };
 
-  const handleDeleteField = (fieldIndexToDelete: number) => {
-    fieldsHandler.remove(fieldIndexToDelete);
+  const handleDeleteField = (blockIndexToDelete: number) => {
+    blocksHandler.remove(blockIndexToDelete);
   };
 
-  const getFieldComponent = ({ type, props }: Field) => {
-    switch (type) {
-      case FieldType.Text:
-        props = props as RegularFieldProps;
-        return <FieldText form={form} {...props} />;
-      case FieldType.Number:
-        props = props as RegularFieldProps;
-        return <FieldNumber form={form} {...props} />;
-      case FieldType.Code:
-        return <CodeEditor formValues={form.values} form={form} {...props} />;
-    }
-  };
-
-  const moveCard = (fromIndex: number, toIndex: number) => {
-    fieldsHandler.reorder({ from: fromIndex, to: toIndex });
+  const moveBlock = (fromIndex: number, toIndex: number) => {
+    blocksHandler.reorder({ from: fromIndex, to: toIndex });
   };
 
   return (
@@ -115,16 +102,15 @@ const Form = () => {
         <Box pb={100}>
           <DndProvider backend={HTML5Backend}>
             <Stack spacing="lg">
-              {fields.map((field, index) => (
+              {blocks.map((block, index) => (
                 <Block
-                  key={field.key}
-                  id={field.key}
+                  key={block.id}
                   index={index}
-                  onMove={moveCard}
+                  block={block}
+                  form={form}
+                  onMove={moveBlock}
                   onDelete={() => handleDeleteField(index)}
-                >
-                  {getFieldComponent(field)}
-                </Block>
+                />
               ))}
             </Stack>
           </DndProvider>
@@ -149,7 +135,7 @@ const Form = () => {
       </form>
 
       {showAddFieldForm && (
-        <ModalAddField
+        <ModalAddBlock
           onSave={handleAddField}
           onClose={() => setShowAddFieldForm(false)}
         />

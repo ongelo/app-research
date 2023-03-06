@@ -3,13 +3,16 @@ import { PropsWithChildren, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import type { Identifier, XYCoord } from "dnd-core";
 import { ArrowsMove, Trash } from "tabler-icons-react";
+import BlockContent from "./BlockContent";
+import type { UseFormReturnType } from "@mantine/form";
 
-interface Props extends PropsWithChildren {
-  id: string;
+type Props = {
   index: number;
+  block: Block;
+  form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
   onMove: (dragIndex: number, hoverIndex: number) => void;
   onDelete: () => void;
-}
+};
 
 interface DragItem {
   index: number;
@@ -17,7 +20,7 @@ interface DragItem {
   type: string;
 }
 
-const Block: React.FC<Props> = ({ children, id, index, onMove, onDelete }) => {
+const Block: React.FC<Props> = ({ index, block, form, onMove, onDelete }) => {
   const dragRef = useRef<HTMLButtonElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
@@ -83,7 +86,7 @@ const Block: React.FC<Props> = ({ children, id, index, onMove, onDelete }) => {
 
   const [_, drag, preview] = useDrag({
     type: "block",
-    item: () => ({ id, index }),
+    item: () => ({ id: block.id, index }),
   });
 
   drag(dragRef);
@@ -105,7 +108,7 @@ const Block: React.FC<Props> = ({ children, id, index, onMove, onDelete }) => {
           <ArrowsMove size="1rem" />
         </ActionIcon>
       </Box>
-      {children}
+      <BlockContent block={block} form={form} />
     </Paper>
   );
 };
