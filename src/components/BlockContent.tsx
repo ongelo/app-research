@@ -1,7 +1,8 @@
 import type { UseFormReturnType } from "@mantine/form";
 import CodeEditor from "./CodeEditor";
-import { FieldType } from "./enums";
+import { BlockType } from "./enums";
 import FieldNumber from "./FieldNumber";
+import FieldPlainText from "./FieldPlainText";
 import FieldText from "./FieldText";
 
 type Props = {
@@ -11,21 +12,26 @@ type Props = {
 
 const BlockContent: React.FC<Props> = ({ block: { type, details }, form }) => {
   switch (type) {
-    case FieldType.Text: {
+    case BlockType.InputText: {
       const props = details as InputDetails;
       return <FieldText form={form} {...props} />;
     }
-    case FieldType.Number: {
+    case BlockType.InputNumber: {
       const props = details as InputDetails;
       return <FieldNumber form={form} {...props} />;
     }
-    case FieldType.Code: {
+    case BlockType.InputCode: {
       const props = details as CodeEditorDetails;
       return <CodeEditor form={form} {...props} formValues={form.values} />;
+    }
+    case BlockType.PlainText: {
+      const props = details as InputDetails;
+      return <FieldPlainText form={form} {...props} />;
     }
     default:
       return null;
   }
 };
 
+// TODO Could probably memoize this with `type`
 export default BlockContent;

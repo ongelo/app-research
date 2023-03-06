@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
 import { Button, Box, Center, Stack } from "@mantine/core";
-import CodeEditor from "./CodeEditor";
-import FieldText from "./FieldText";
 import { CirclePlus } from "tabler-icons-react";
-import FieldNumber from "./FieldNumber";
 import ModalAddBlock from "./ModalAddBlock";
 import Block from "./Block";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useListState, useLocalStorage, useWindowScroll } from "@mantine/hooks";
-import { FieldType } from "./enums";
+import { BlockType } from "./enums";
 import AlertSuccess from "./AlertSuccess";
 
 const DEFAULT_CODE = `
@@ -41,8 +38,16 @@ const Form = () => {
 
   const [blocks, blocksHandler] = useListState<Block>([
     {
+      id: "descriptionOfResearch",
+      type: BlockType.PlainText,
+      details: {
+        name: "descriptionOfResearch",
+        label: "",
+      },
+    },
+    {
       id: "name",
-      type: FieldType.Text,
+      type: BlockType.InputText,
       details: {
         name: "name",
         label: "Name",
@@ -51,20 +56,18 @@ const Form = () => {
     },
     {
       id: "age",
-      type: FieldType.Number,
+      type: BlockType.InputNumber,
       details: {
         name: "age",
         label: "Age",
-        placeholder: "",
       },
     },
     {
       id: "code1",
-      type: FieldType.Code,
+      type: BlockType.InputCode,
       details: {
         name: "code1",
         label: "",
-        placeholder: "",
       },
     },
   ]);

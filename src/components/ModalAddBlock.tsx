@@ -1,30 +1,31 @@
 import { Button, Modal, Select, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { FieldType } from "./enums";
+import { BlockType } from "./enums";
 
 interface AddFieldFormValues extends Omit<InputProps, "form"> {
-  fieldType: FieldType;
+  blockType: BlockType;
 }
 
 type Props = {
   onClose: () => void;
-  onSave: (field: Block) => void;
+  onSave: (block: Block) => void;
 };
 
-const isCodeFieldType = (type: FieldType) => type === FieldType.Code;
+const isCodeInputType = (type: BlockType) => type === BlockType.InputCode;
+const isPlainTextType = (type: BlockType) => type === BlockType.PlainText;
 
 const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
   const form = useForm<AddFieldFormValues>({
     initialValues: {
-      fieldType: FieldType.Text,
+      blockType: BlockType.InputText,
       name: "",
       label: "",
       placeholder: "",
     },
-    validate: ({ fieldType, name, label }) => ({
+    validate: ({ blockType, name, label }) => ({
       name: !name ? "Field must have an identifier" : null,
       label:
-        !isCodeFieldType(fieldType) && !label
+        !isCodeInputType(blockType) && !isPlainTextType(blockType) && !label
           ? "Field must have a label"
           : null,
     }),
@@ -33,7 +34,7 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
   const handleSubmit = (values: AddFieldFormValues) => {
     onSave({
       id: values.name,
-      type: values.fieldType,
+      type: values.blockType,
       details: {
         ...values,
       },
@@ -42,18 +43,19 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
   };
 
   return (
-    <Modal opened title="Add field" size="md" centered onClose={onClose}>
+    <Modal opened title="Add block" size="md" centered onClose={onClose}>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack spacing="lg">
           <Select
-            name="fieldType"
-            label="Field type"
+            name="blockType"
+            label="Block type"
             data={[
-              { value: FieldType.Text, label: "Text input" },
-              { value: FieldType.Number, label: "Number input" },
-              { value: FieldType.Code, label: "Custom code" },
+              { value: BlockType.InputText, label: "Text input" },
+              { value: BlockType.InputNumber, label: "Number input" },
+              { value: BlockType.InputCode, label: "Custom code" },
+              { value: BlockType.PlainText, label: "Plain text" },
             ]}
-            {...form.getInputProps("fieldType")}
+            {...form.getInputProps("blockType")}
           />
 
           <TextInput
@@ -63,22 +65,23 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
             {...form.getInputProps("name")}
           />
 
-          {!isCodeFieldType(form.values.fieldType) && (
-            <>
-              <TextInput
-                name="label"
-                label="Field label"
-                placeholder="Enter person name"
-                {...form.getInputProps("label")}
-              />
-              <TextInput
-                name="placeholder"
-                label="Field placeholder"
-                placeholder="Jack Smith"
-                {...form.getInputProps("placeholder")}
-              />
-            </>
-          )}
+          {!isCodeInputType(form.values.blockType) &&
+            !isPlainTextType(form.values.blockType) && (
+              <>
+                <TextInput
+                  name="label"
+                  label="Field label"
+                  placeholder="Enter person name"
+                  {...form.getInputProps("label")}
+                />
+                <TextInput
+                  name="placeholder"
+                  label="Field placeholder"
+                  placeholder="Jack Smith"
+                  {...form.getInputProps("placeholder")}
+                />
+              </>
+            )}
 
           <Button type="submit" size="xl" mt="sm" fullWidth>
             Add block

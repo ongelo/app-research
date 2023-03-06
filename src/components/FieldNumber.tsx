@@ -1,15 +1,7 @@
-import { MantineStyleSystemProps, NumberInput } from "@mantine/core";
-import { UseFormReturnType } from "@mantine/form/lib/types";
+import { NumberInput } from "@mantine/core";
 import FieldLabel from "./FieldLabel";
 
-interface Props extends MantineStyleSystemProps {
-  name: string;
-  form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
-  label: string;
-  placeholder: string;
-}
-
-const FieldNumber: React.FC<Props> = ({
+const FieldNumber: React.FC<InputProps> = ({
   name,
   form,
   label,

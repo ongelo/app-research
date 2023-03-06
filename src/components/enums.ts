@@ -1,11 +1,6 @@
-export enum FieldType {
-  Text = "text",
-  Number = "number",
-  Code = "code",
-}
-
 export enum BlockType {
-  Text = "text",
-  File = "file",
-  Input = "input",
+  PlainText = "plain-text",
+  InputText = "input-text",
+  InputNumber = "input-number",
+  InputCode = "input-code",
 }

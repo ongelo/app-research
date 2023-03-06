@@ -8,7 +8,7 @@ interface InputProps extends MantineStyleProps {
   name: string;
   form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
   label: string;
-  placeholder: string;
+  placeholder?: string;
 }
 
 type CodeEditorProps = {
@@ -19,7 +19,7 @@ type CodeEditorProps = {
 
 type ResearchForm = {
   key: string;
-  type: FieldType;
+  type: BlockType;
   value: string | number | null;
 };
 
