@@ -6,7 +6,12 @@ import ModalAddBlock from "./ModalAddBlock";
 import Block from "./Block";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useListState, useLocalStorage, useWindowScroll } from "@mantine/hooks";
+import {
+  useDisclosure,
+  useListState,
+  useLocalStorage,
+  useWindowScroll,
+} from "@mantine/hooks";
 import { BlockType } from "./enums";
 import AlertSuccess from "./AlertSuccess";
 
@@ -80,7 +85,10 @@ const Form = () => {
       },
     },
   ]);
-  const [showAddFieldForm, setShowAddFieldForm] = useState<boolean>(false);
+  const [
+    addBlockModalOpen,
+    { open: openAddBlockModal, close: closeAddBlockModal },
+  ] = useDisclosure(false);
 
   const handleSubmit = (values: FormValues) => {
     const researchForm: ResearchForm[] = blocks.map((field) => ({
@@ -133,7 +141,7 @@ const Form = () => {
               variant="gradient"
               gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
               fullWidth
-              onClick={() => setShowAddFieldForm(true)}
+              onClick={openAddBlockModal}
             >
               <CirclePlus size="2em" />
             </Button>
@@ -141,17 +149,14 @@ const Form = () => {
         </Box>
 
         <Box pos="fixed" bottom={0} right={0} left={0}>
-          <Button type="submit" size="xl" mt="sm" fullWidth>
+          <Button type="submit" size="xl" mt="sm" radius="xs" fullWidth>
             Save research
           </Button>
         </Box>
       </form>
 
-      {showAddFieldForm && (
-        <ModalAddBlock
-          onSave={handleAddField}
-          onClose={() => setShowAddFieldForm(false)}
-        />
+      {addBlockModalOpen && (
+        <ModalAddBlock onSave={handleAddField} onClose={closeAddBlockModal} />
       )}
     </>
   );

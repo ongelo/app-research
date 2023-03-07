@@ -51,7 +51,7 @@ const ModalAddField: React.FC<Props> = ({ onSave, onClose }) => {
   };
 
   return (
-    <Modal opened title="Add block" size="md" centered onClose={onClose}>
+    <Modal opened title="Add block" centered onClose={onClose}>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack spacing="lg">
           <Select

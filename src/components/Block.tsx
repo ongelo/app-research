@@ -99,8 +99,9 @@ const Block: React.FC<Props> = ({ index, block, form, onMove, onDelete }) => {
       p="md"
       withBorder
       pos="relative"
+      w="calc(100% - 32px)"
     >
-      <Box pos="absolute" top="0" right="-42px" px="xs">
+      <Box pos="absolute" top="0" right="-32px" pl="xs">
         <ActionIcon onClick={onDelete}>
           <Trash size="1rem" />
         </ActionIcon>
