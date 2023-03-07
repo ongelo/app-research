@@ -1,11 +1,7 @@
-import { useLocalStorage } from "@mantine/hooks";
+import LiveForm from "./LiveForm";
 
 const ResearchPreview = () => {
-  const [researchForm, _] = useLocalStorage<FormValues>({
-    key: "researchForm",
-  });
-
-  return <span>{JSON.stringify(researchForm, null, 4)}</span>;
+  return <LiveForm />;
 };
 
 export default ResearchPreview;

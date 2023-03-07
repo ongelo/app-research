@@ -23,7 +23,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ name, formValues, form }) => {
       <Text size="sm">
         Here you have access to your form values! 💻 Use <Code>formValues</Code>{" "}
         object to refer to your form values by their identifier (e.g.{" "}
-        <Code>formValues.personName</Code>).
+        <Code>formValues.personName</Code>). Make sure to <Code>return</Code> a
+        primitive value (e.g. <Code>string</Code>).
       </Text>
       <ReactCodeEditor
         language="js"

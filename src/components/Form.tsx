@@ -36,7 +36,7 @@ const Form = () => {
       code1: DEFAULT_CODE,
     },
   });
-  const [, setResearchForm] = useLocalStorage<ResearchForm[]>({
+  const [, setResearchForm] = useLocalStorage<LiveBlock[]>({
     key: "researchForm",
   });
   const [, scrollTo] = useWindowScroll();
@@ -72,7 +72,7 @@ const Form = () => {
       type: BlockType.InputCode,
       details: {
         name: "code1",
-        label: "",
+        formValues: {},
       },
     },
     {
@@ -91,10 +91,11 @@ const Form = () => {
   ] = useDisclosure(false);
 
   const handleSubmit = (values: FormValues) => {
-    const researchForm: ResearchForm[] = blocks.map((field) => ({
-      key: field.id,
-      type: field.type,
-      value: values[field.id],
+    const researchForm: LiveBlock[] = blocks.map((block) => ({
+      id: block.id,
+      type: block.type,
+      value: values[block.id],
+      details: block.details,
     }));
 
     setResearchForm(researchForm);

@@ -1,4 +1,3 @@
-import type { UseFormReturnType } from "@mantine/form";
 import CodeEditor from "./CodeEditor";
 import { BlockType } from "./enums";
 import FieldNumber from "./FieldNumber";
@@ -8,7 +7,7 @@ import FieldText from "./FieldText";
 
 type Props = {
   block: Block;
-  form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
+  form: Form;
 };
 
 const BlockContent: React.FC<Props> = ({ block: { type, details }, form }) => {

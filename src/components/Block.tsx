@@ -9,7 +9,7 @@ import type { UseFormReturnType } from "@mantine/form";
 type Props = {
   index: number;
   block: Block;
-  form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
+  form: Form;
   onMove: (dragIndex: number, hoverIndex: number) => void;
   onDelete: () => void;
 };

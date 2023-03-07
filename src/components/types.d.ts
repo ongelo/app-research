@@ -6,7 +6,7 @@ type FormValues = {
 
 interface InputProps extends MantineStyleProps {
   name: string;
-  form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
+  form: Form;
   label: string;
   placeholder?: string;
 }
@@ -18,13 +18,14 @@ interface SelectInputProps extends InputProps {
 type CodeEditorProps = {
   name: string;
   formValues: FormValues;
-  form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
+  form: Form;
 };
 
-type ResearchForm = {
-  key: string;
+type LiveBlock = {
+  id: string;
   type: BlockType;
   value: string | number | null;
+  details: InputDetails | CodeEditorDetails | SelectInputDetails;
 };
 
 type InputDetails = Omit<InputProps, "form">;
@@ -36,3 +37,5 @@ type Block = {
   type: BlockType;
   details: InputDetails | CodeEditorDetails | SelectInputDetails;
 };
+
+type Form = Form;
