@@ -72,7 +72,7 @@ const Form = () => {
       {success && <AlertSuccess onClose={() => setSuccess(false)} />}
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box pb={100}>
+        <Box pb="xl">
           <DndProvider backend={HTML5Backend}>
             <Stack spacing="lg">
               {form.values.blocks.map((block, index) => (
@@ -88,7 +88,7 @@ const Form = () => {
             </Stack>
           </DndProvider>
 
-          <Center h={100}>
+          <Center h={80}>
             <Button
               leftIcon={<CirclePlus />}
               type="button"
@@ -101,11 +101,9 @@ const Form = () => {
           </Center>
         </Box>
 
-        <Box pos="fixed" bottom={0} right={0} left={0}>
-          <Button type="submit" size="xl" mt="sm" radius="xs" fullWidth>
-            Save research
-          </Button>
-        </Box>
+        <Button type="submit" size="xl" mb="xl" radius="xs" fullWidth>
+          Save research
+        </Button>
       </form>
     </>
   );
