@@ -1,34 +1,48 @@
 import { Text } from "@mantine/core";
+import { UseFormReturnType } from "@mantine/form";
 import { BlockType } from "../enums";
-import FieldNumber from "../FieldNumber";
-import FieldSelect from "../FieldSelect";
-import FieldText from "../FieldText";
-import LiveCodeBlock from "./LiveCodeBlock";
+import CodeOutput from "./CodeOutput";
+import FieldNumber from "./FieldNumber";
+import FieldSelect from "./FieldSelect";
+import FieldText from "./FieldText";
 
 type Props = {
-  block: LiveBlock;
-  form: Form;
+  block: Block;
+  form: UseFormReturnType<LiveFormValues>;
 };
 
 const LiveBlockContent: React.FC<Props> = ({
-  block: { type, value, details },
+  block: { id, type, details },
   form,
 }) => {
   switch (type) {
     case BlockType.InputText: {
-      return <FieldText form={form} {...(details as InputDetails)} />;
+      return <FieldText name={id} form={form} {...(details as InputDetails)} />;
     }
     case BlockType.InputNumber: {
-      return <FieldNumber form={form} {...(details as InputDetails)} />;
+      return (
+        <FieldNumber name={id} form={form} {...(details as InputDetails)} />
+      );
     }
     case BlockType.InputCode: {
-      return <LiveCodeBlock code={value} />;
+      return (
+        <CodeOutput
+          code={(details as CodeInputDetails).code}
+          formValues={form.values}
+        />
+      );
     }
     case BlockType.PlainText: {
-      return <Text>{value}</Text>;
+      return <Text>{(details as TextDetails).text}</Text>;
     }
     case BlockType.InputSelect: {
-      return <FieldSelect form={form} {...(details as SelectInputDetails)} />;
+      return (
+        <FieldSelect
+          name={id}
+          form={form}
+          {...(details as SelectInputDetails)}
+        />
+      );
     }
     default:
       return null;

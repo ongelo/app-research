@@ -1,15 +1,15 @@
-import { Box, Button, Stack } from "@mantine/core";
+import { Box, Button, Stack, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useLocalStorage } from "@mantine/hooks";
 import LiveBlock from "./LiveBlock";
 
 const LiveForm = () => {
-  const [researchForm, _] = useLocalStorage<LiveBlock[]>({
+  const [researchForm, _] = useLocalStorage<ResearchBuilderFormValues>({
     key: "researchForm",
   });
-  const form = useForm<FormValues>();
+  const form = useForm<LiveFormValues>();
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = (values: LiveFormValues) => {
     console.log({ values });
   };
 
@@ -20,7 +20,8 @@ const LiveForm = () => {
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack spacing="xl">
-        {researchForm?.map((researchForm) => (
+        <Title>{researchForm.title}</Title>
+        {researchForm.blocks.map((researchForm) => (
           <LiveBlock key={researchForm.id} form={form} block={researchForm} />
         ))}
       </Stack>

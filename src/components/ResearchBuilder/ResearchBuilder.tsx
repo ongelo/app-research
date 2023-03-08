@@ -1,5 +1,5 @@
 import { Title } from "@mantine/core";
-import Form from "./Form";
+import Form from "./FormResearchBuilder";
 
 const ResearchBuilder = () => {
   return (

@@ -1,8 +1,9 @@
+import { UseFormReturnType } from "@mantine/form";
 import LiveBlockContent from "./LiveBlockContent";
 
 type Props = {
-  form: Form;
-  block: LiveBlock;
+  form: UseFormReturnType<LiveFormValues>;
+  block: Block;
 };
 
 const LiveBlock: React.FC<Props> = ({ form, block }) => {

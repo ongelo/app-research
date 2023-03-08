@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <Container size="xs" px="sm" pt="xl" mt="xl">
+    <Container size="sm" px="sm" pt="xl" mt="xl">
       {children}
     </Container>
   );

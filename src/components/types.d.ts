@@ -1,41 +1,39 @@
 type MantineStyleProps = import("@mantine/core").MantineStyleSystemProps;
 
-type FormValues = {
+type ResearchBuilderFormValues = {
+  title: string;
+  blocks: Block[];
+};
+
+type LiveFormValues = {
   [key: string]: string | number;
 };
 
-interface InputProps extends MantineStyleProps {
-  name: string;
-  form: Form;
+interface InputDetails {
   label: string;
   placeholder?: string;
 }
 
-interface SelectInputProps extends InputProps {
-  options: string[];
+interface SelectInputDetails extends InputDetails {
+  options?: string[];
 }
 
-type CodeEditorProps = {
-  name: string;
-  formValues: FormValues;
-  form: Form;
-};
+interface CodeInputDetails {
+  code: string;
+}
 
-type LiveBlock = {
-  id: string;
-  type: BlockType;
-  value: string | number | null;
-  details: InputDetails | CodeEditorDetails | SelectInputDetails;
-};
+interface TextDetails {
+  text: string;
+}
 
-type InputDetails = Omit<InputProps, "form">;
-type SelectInputDetails = Omit<SelectInputProps, "form">;
-type CodeEditorDetails = Omit<CodeEditorProps, "form">;
+type BlockDetails =
+  | InputDetails
+  | SelectInputDetails
+  | CodeInputDetails
+  | TextDetails;
 
 type Block = {
   id: string;
   type: BlockType;
-  details: InputDetails | CodeEditorDetails | SelectInputDetails;
+  details?: BlockDetails;
 };
-
-type Form = Form;

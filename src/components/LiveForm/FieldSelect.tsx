@@ -1,5 +1,4 @@
 import { NativeSelect } from "@mantine/core";
-import FieldLabel from "./FieldLabel";
 
 const FieldSelect: React.FC<SelectInputProps> = ({
   name,
@@ -12,7 +11,7 @@ const FieldSelect: React.FC<SelectInputProps> = ({
   return (
     <NativeSelect
       data={options}
-      label={<FieldLabel label={label} name={name} />}
+      label={label}
       placeholder={placeholder}
       size="lg"
       {...form.getInputProps(name)}

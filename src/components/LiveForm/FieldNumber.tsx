@@ -1,5 +1,4 @@
 import { NumberInput } from "@mantine/core";
-import FieldLabel from "./FieldLabel";
 
 const FieldNumber: React.FC<InputProps> = ({
   name,
@@ -10,7 +9,7 @@ const FieldNumber: React.FC<InputProps> = ({
 }) => {
   return (
     <NumberInput
-      label={<FieldLabel label={label} name={name} />}
+      label={label}
       placeholder={placeholder}
       min={0}
       max={99}

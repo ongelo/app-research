@@ -4,21 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 
 type Props = {
   code: string | number | null;
+  formValues: LiveFormValues;
 };
 
-const LiveCodeBlock: React.FC<Props> = ({ code }) => {
+const CodeOutput: React.FC<Props> = ({ code, formValues }) => {
+  console.log({ code });
   const [codeResult, setCodeResult] = useState("");
-
-  const [researchForm, _] = useLocalStorage<LiveBlock[]>({
-    key: "researchForm",
-  });
-  const formValues: FormValues = researchForm?.reduce((acc, currentValue) => {
-    acc = {
-      ...acc,
-      [currentValue.id]: currentValue.value,
-    };
-    return acc;
-  }, {});
 
   const run = useCallback(() => {
     const codeWrapper = () => `{
@@ -46,4 +37,4 @@ const LiveCodeBlock: React.FC<Props> = ({ code }) => {
   );
 };
 
-export default LiveCodeBlock;
+export default CodeOutput;
