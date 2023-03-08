@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
-import { Button, Box, Center, Stack } from "@mantine/core";
+import { Button, Box, Center, Stack, Title, TextInput } from "@mantine/core";
 import { CirclePlus } from "tabler-icons-react";
 import Block from "./Block";
 import { DndProvider } from "react-dnd";
@@ -40,7 +40,7 @@ const Form = () => {
 
   const handleAddBlock = () => {
     const defaultBlock = {
-      id: `id-${new Date().getSeconds()}`,
+      id: `id-${new Date().getMilliseconds()}`,
       type: BlockType.InputText,
       details: {
         label: "New input",
@@ -60,6 +60,15 @@ const Form = () => {
 
   return (
     <>
+      <Title order={1} mb="lg">
+        <TextInput
+          name="title"
+          label="Research title"
+          size="lg"
+          {...form.getInputProps("title")}
+        />
+      </Title>
+
       {success && <AlertSuccess onClose={() => setSuccess(false)} />}
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -81,13 +90,13 @@ const Form = () => {
 
           <Center h={100}>
             <Button
+              leftIcon={<CirclePlus />}
               type="button"
-              variant="gradient"
-              gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-              fullWidth
+              variant="light"
               onClick={handleAddBlock}
+              fullWidth
             >
-              <CirclePlus size="2em" />
+              Add question
             </Button>
           </Center>
         </Box>

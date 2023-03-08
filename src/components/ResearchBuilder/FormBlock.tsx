@@ -19,7 +19,7 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
       <Grid.Col span={12}>
         <Select
           name={`${id}.type`}
-          label="Block type"
+          label="Question type"
           data={[
             { value: BlockType.InputText, label: "Text input" },
             { value: BlockType.InputNumber, label: "Number input" },
@@ -34,7 +34,7 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
       <Grid.Col span={12}>
         <TextInput
           name={`${id}.id`}
-          label="Field ID"
+          label="Question ID"
           placeholder="personName"
           {...form.getInputProps(`${id}.id`)}
         />
@@ -45,7 +45,7 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
           <Grid.Col span={6}>
             <TextInput
               name={`${id}.details.label`}
-              label="Field label"
+              label="Question label"
               placeholder="Enter person name"
               {...form.getInputProps(`${id}.details.label`)}
             />
@@ -53,7 +53,7 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
           <Grid.Col span={6}>
             <TextInput
               name={`${id}.details.placeholder`}
-              label="Field placeholder"
+              label="Question placeholder"
               placeholder="Jack Smith"
               {...form.getInputProps(`${id}.details.placeholder`)}
             />
@@ -79,12 +79,14 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
       )}
 
       {isPlainTextType(blockType) && (
-        <Textarea
-          name={`${id}.details.text`}
-          label="Enter plain text"
-          placeholder="This research is about something really important."
-          {...form.getInputProps(`${id}.details.text`)}
-        />
+        <Grid.Col span={12}>
+          <Textarea
+            name={`${id}.details.text`}
+            label="Enter plain text"
+            placeholder="This research is about something really important."
+            {...form.getInputProps(`${id}.details.text`)}
+          />
+        </Grid.Col>
       )}
     </Grid>
   );

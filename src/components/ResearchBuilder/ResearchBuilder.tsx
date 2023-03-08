@@ -1,15 +1,7 @@
-import { Title } from "@mantine/core";
-import Form from "./FormResearchBuilder";
+import FormResearchBuilder from "./FormResearchBuilder";
 
 const ResearchBuilder = () => {
-  return (
-    <div>
-      <Title order={1} mb="lg">
-        Create a research
-      </Title>
-      <Form />
-    </div>
-  );
+  return <FormResearchBuilder />;
 };
 
 export default ResearchBuilder;

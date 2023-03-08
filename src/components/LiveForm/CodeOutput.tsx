@@ -8,7 +8,6 @@ type Props = {
 };
 
 const CodeOutput: React.FC<Props> = ({ code, formValues }) => {
-  console.log({ code });
   const [codeResult, setCodeResult] = useState("");
 
   const run = useCallback(() => {
