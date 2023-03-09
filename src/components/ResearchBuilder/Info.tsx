@@ -10,7 +10,7 @@ const Info: React.FC<Props> = ({ text }) => {
     <HoverCard shadow="md" openDelay={100} position="top">
       <HoverCard.Target>
         <ActionIcon color="blue">
-          <InfoCircle size="1rem" />
+          <InfoCircle size={18} />
         </ActionIcon>
       </HoverCard.Target>
       <HoverCard.Dropdown>

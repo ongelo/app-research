@@ -129,7 +129,7 @@ const Form: React.FC<Props> = ({ initialValues }) => {
         <TextInput
           name="title"
           label={
-            <Group spacing={4}>
+            <Group spacing={3}>
               Research title{" "}
               <Info text="The title of your research that will show at the top." />
             </Group>
