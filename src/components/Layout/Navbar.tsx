@@ -11,7 +11,7 @@ const Navbar: React.FC<Props> = ({ opened }) => {
       p="md"
       hiddenBreakpoint="sm"
       hidden={!opened}
-      width={{ sm: 200, lg: 300 }}
+      width={{ base: 200 }}
     >
       <MantineNavbar.Section grow>
         <NavLink label="My researches" icon={<Notebook size="1rem" />} />
