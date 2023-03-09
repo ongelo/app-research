@@ -23,10 +23,15 @@ import { BlockType } from "../enums";
 import AlertSuccess from "../AlertSuccess";
 import { INITIAL_BLOCKS } from "../constants";
 
-const Form = () => {
+type Props = {
+  initialValues: ResearchBuilderFormValues | undefined;
+};
+
+const Form: React.FC<Props> = ({ initialValues }) => {
   const [success, setSuccess] = useState(false);
+
   const form = useForm<ResearchBuilderFormValues>({
-    initialValues: {
+    initialValues: initialValues ?? {
       title: "My research",
       blocks: INITIAL_BLOCKS,
     },
