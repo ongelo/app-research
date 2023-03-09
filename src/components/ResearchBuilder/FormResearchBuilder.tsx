@@ -9,6 +9,7 @@ import {
   TextInput,
   Text,
   Divider,
+  Group,
 } from "@mantine/core";
 import { CirclePlus } from "tabler-icons-react";
 import Block from "./Block";
@@ -22,6 +23,7 @@ import {
 import { BlockType } from "../enums";
 import AlertSuccess from "../AlertSuccess";
 import { INITIAL_BLOCKS } from "../constants";
+import ModalResetConfirmation from "./ModalResetConfirmation";
 
 type Props = {
   initialValues: ResearchBuilderFormValues | undefined;
@@ -42,8 +44,8 @@ const Form: React.FC<Props> = ({ initialValues }) => {
   const [, scrollTo] = useWindowScroll();
 
   const [
-    addBlockModalOpen,
-    { open: openAddBlockModal, close: closeAddBlockModal },
+    showResetConfirmation,
+    { open: openResetConfirmation, close: closeResetConfirmation },
   ] = useDisclosure(false);
 
   const handleSubmit = (values: ResearchBuilderFormValues) => {
@@ -72,8 +74,17 @@ const Form: React.FC<Props> = ({ initialValues }) => {
     form.reorderListItem("blocks", { from: fromIndex, to: toIndex });
   };
 
+  const handleResetForm = () => {
+    form.setValues({
+      title: "",
+      blocks: [],
+    });
+  };
+
   return (
     <>
+      {success && <AlertSuccess onClose={() => setSuccess(false)} />}
+
       <Title mb="xs">Build your first research</Title>
       <Text c="gray.7" fz="sm">
         Add as many blocks as you want and customize them however you like. You
@@ -83,7 +94,12 @@ const Form: React.FC<Props> = ({ initialValues }) => {
 
       <Divider my="lg" />
 
-      {success && <AlertSuccess onClose={() => setSuccess(false)} />}
+      <Group position="right" mb="sm">
+        <Button type="button" variant="outline" onClick={openResetConfirmation}>
+          Reset
+        </Button>
+        <Button type="submit">Save</Button>
+      </Group>
 
       <TextInput
         name="title"
@@ -127,6 +143,13 @@ const Form: React.FC<Props> = ({ initialValues }) => {
           Save research
         </Button>
       </form>
+
+      {showResetConfirmation && (
+        <ModalResetConfirmation
+          onConfirm={handleResetForm}
+          onClose={closeResetConfirmation}
+        />
+      )}
     </>
   );
 };

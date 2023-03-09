@@ -15,7 +15,7 @@ const AlertSuccess: React.FC<Props> = ({ onClose }) => {
       mb="lg"
       onClose={onClose}
     >
-      Your research form has been saved. See{" "}
+      Your research has been saved. See{" "}
       <Link href="research/preview" legacyBehavior>
         <Anchor>preview</Anchor>
       </Link>
