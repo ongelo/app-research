@@ -1,4 +1,4 @@
-import { Grid, Select, Stack, Textarea, TextInput } from "@mantine/core";
+import { Grid, Select, Textarea, TextInput } from "@mantine/core";
 import CodeEditor from "./CodeEditor";
 import { BlockType } from "../enums";
 import { UseFormReturnType } from "@mantine/form";
@@ -13,18 +13,20 @@ const isPlainTextType = (type: BlockType) => type === BlockType.PlainText;
 const isSelectInputType = (type: BlockType) => type === BlockType.InputSelect;
 
 const FormBlock: React.FC<Props> = ({ id, form }) => {
-  const blockType = form.getInputProps(`${id}.type`).value;
+  const blockType = form.getInputProps(`${id}.type`).value as BlockType;
+  const selectOptions = form.getInputProps(`${id}.details.options`)
+    .value as string[];
   return (
     <Grid>
       <Grid.Col span={12}>
         <Select
           name={`${id}.type`}
-          label="Question type"
+          label="Block type"
           data={[
-            { value: BlockType.InputText, label: "Text input" },
-            { value: BlockType.InputNumber, label: "Number input" },
+            { value: BlockType.InputText, label: "Text question" },
+            { value: BlockType.InputNumber, label: "Number question" },
             { value: BlockType.InputCode, label: "Custom code" },
-            { value: BlockType.InputSelect, label: "Select input" },
+            { value: BlockType.InputSelect, label: "Dropdown question" },
             { value: BlockType.PlainText, label: "Plain text" },
           ]}
           {...form.getInputProps(`${id}.type`)}
@@ -61,16 +63,16 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
         </>
       )}
 
-      {isSelectInputType(blockType) && (
-        <Grid.Col span={6}>
+      {/* make options have value/label pair */}
+      {selectOptions?.map((option, index) => (
+        <Grid.Col key={index} span={12}>
           <TextInput
-            name={`${id}.details.selectOption`}
-            label="Enter a select option"
-            placeholder="Jack Smith"
-            {...form.getInputProps(`${id}.details.selectOption`)}
+            name={`${id}.details.options.${index}`}
+            label={`Dropdown option ${index + 1}`}
+            {...form.getInputProps(`${id}.details.options.${index}`)}
           />
         </Grid.Col>
-      )}
+      ))}
 
       {isCodeInputType(blockType) && (
         <Grid.Col span={12}>
