@@ -11,6 +11,7 @@ import {
   Divider,
   Group,
   LoadingOverlay,
+  Tooltip,
 } from "@mantine/core";
 import { CirclePlus } from "tabler-icons-react";
 import Block from "./Block";
@@ -26,6 +27,7 @@ import { BlockType } from "../enums";
 import AlertSuccess from "../AlertSuccess";
 import { INITIAL_BLOCKS } from "../constants";
 import ModalResetConfirmation from "./ModalResetConfirmation";
+import Info from "./Info";
 
 type Props = {
   initialValues: ResearchBuilderFormValues | undefined;
@@ -110,19 +112,28 @@ const Form: React.FC<Props> = ({ initialValues }) => {
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Group position="right" mb="sm">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={openResetConfirmation}
-          >
-            Reset
-          </Button>
-          <Button type="submit">Save</Button>
+          <Tooltip label="Reset your your changes">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={openResetConfirmation}
+            >
+              Reset
+            </Button>
+          </Tooltip>
+          <Tooltip label="Updates your research for everyone">
+            <Button type="submit">Save</Button>
+          </Tooltip>
         </Group>
 
         <TextInput
           name="title"
-          label="Research title"
+          label={
+            <Group spacing={4}>
+              Research title{" "}
+              <Info text="The title of your research that will show at the top." />
+            </Group>
+          }
           size="lg"
           mb="lg"
           {...form.getInputProps("title")}

@@ -1,10 +1,10 @@
-import { ActionIcon, Box, Paper } from "@mantine/core";
+import { Paper } from "@mantine/core";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import type { Identifier, XYCoord } from "dnd-core";
-import { ArrowsMove, Trash } from "tabler-icons-react";
 import FormBlock from "./FormBlock";
 import { UseFormReturnType } from "@mantine/form/lib/types";
+import BlockTools from "./BlockTools";
 
 type Props = {
   index: number;
@@ -101,14 +101,7 @@ const Block: React.FC<Props> = ({ index, id, form, onMove, onDelete }) => {
       pos="relative"
       w="calc(100% - 32px)"
     >
-      <Box pos="absolute" top="0" right="-32px" pl="xs">
-        <ActionIcon onClick={onDelete}>
-          <Trash size="1rem" />
-        </ActionIcon>
-        <ActionIcon ref={dragRef}>
-          <ArrowsMove size="1rem" />
-        </ActionIcon>
-      </Box>
+      <BlockTools dragRef={dragRef} onDelete={onDelete} />
       <FormBlock id={id} form={form} />
     </Paper>
   );
