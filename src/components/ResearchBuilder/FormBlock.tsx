@@ -33,14 +33,16 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
         />
       </Grid.Col>
 
-      <Grid.Col span={12}>
-        <TextInput
-          name={`${id}.id`}
-          label="Question ID"
-          placeholder="personName"
-          {...form.getInputProps(`${id}.id`)}
-        />
-      </Grid.Col>
+      {!isCodeInputType(blockType) && !isPlainTextType(blockType) && (
+        <Grid.Col span={12}>
+          <TextInput
+            name={`${id}.id`}
+            label="Question ID"
+            placeholder="personName"
+            {...form.getInputProps(`${id}.id`)}
+          />
+        </Grid.Col>
+      )}
 
       {!isCodeInputType(blockType) && !isPlainTextType(blockType) && (
         <>
