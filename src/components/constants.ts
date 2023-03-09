@@ -19,7 +19,7 @@ export const INITIAL_BLOCKS = [
     id: "descriptionOfResearch",
     type: BlockType.PlainText,
     details: {
-      text: "Enter here",
+      text: "This research is to measure your answers and find interesting things for you and your buddies.",
     },
   },
   {

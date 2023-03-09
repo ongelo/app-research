@@ -94,22 +94,26 @@ const Form: React.FC<Props> = ({ initialValues }) => {
 
       <Divider my="lg" />
 
-      <Group position="right" mb="sm">
-        <Button type="button" variant="outline" onClick={openResetConfirmation}>
-          Reset
-        </Button>
-        <Button type="submit">Save</Button>
-      </Group>
-
-      <TextInput
-        name="title"
-        label="Research title"
-        size="lg"
-        mb="lg"
-        {...form.getInputProps("title")}
-      />
-
       <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Group position="right" mb="sm">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={openResetConfirmation}
+          >
+            Reset
+          </Button>
+          <Button type="submit">Save</Button>
+        </Group>
+
+        <TextInput
+          name="title"
+          label="Research title"
+          size="lg"
+          mb="lg"
+          {...form.getInputProps("title")}
+        />
+
         <Box pb="xl">
           <DndProvider backend={HTML5Backend}>
             <Stack spacing="lg">
