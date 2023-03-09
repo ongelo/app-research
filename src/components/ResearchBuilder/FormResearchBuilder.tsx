@@ -142,7 +142,7 @@ const Form: React.FC<Props> = ({ initialValues }) => {
         <Box pb="xl">
           <DndProvider backend={HTML5Backend}>
             <Stack spacing="lg">
-              {form?.values?.blocks?.map((block, index) => (
+              {form.values.blocks.map((block, index) => (
                 <Block
                   key={block.id}
                   id={`blocks.${index}`}

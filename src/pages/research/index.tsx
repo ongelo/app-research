@@ -1,6 +1,6 @@
 import Head from "@/components/Head";
 import Layout from "@/components/Layout";
-import ResearchBuilder from "@/components/ResearchBuilder/ResearchBuilder";
+import ResearchBuilder from "@/components/ResearchBuilder";
 
 const ResearchPage = () => {
   return (
