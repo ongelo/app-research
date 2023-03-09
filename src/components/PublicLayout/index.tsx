@@ -1,16 +1,11 @@
 import { AppShell, Container } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { PropsWithChildren } from "react";
 import Header from "./Header";
-import Navbar from "./Navbar";
 
-const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-  const [opened, { toggle }] = useDisclosure(false);
+const PublicLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <AppShell
-      navbarOffsetBreakpoint="sm"
-      navbar={<Navbar opened={opened} />}
-      header={<Header opened={opened} toggle={toggle} />}
+      header={<Header />}
       styles={(theme) => ({
         main: {
           backgroundColor:
@@ -27,4 +22,4 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default PublicLayout;

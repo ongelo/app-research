@@ -1,13 +1,13 @@
 import Head from "@/components/Head";
-import Layout from "@/components/Layout";
+import PublicLayout from "@/components/PublicLayout";
 import ResearchPreview from "@/components/ResearchPreview";
 
 const ResearchPreviewPage = () => {
   return (
-    <Layout>
+    <PublicLayout>
       <Head title="Research Preview" />
       <ResearchPreview />
-    </Layout>
+    </PublicLayout>
   );
 };
 

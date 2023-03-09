@@ -27,7 +27,7 @@ const LiveForm = () => {
       </Stack>
 
       <Box pos="fixed" bottom={0} right={0} left={0}>
-        <Button type="submit" size="xl" mt="sm" radius="xs" fullWidth>
+        <Button type="submit" size="xl" mt="sm" radius={0} fullWidth>
           Submit
         </Button>
       </Box>
