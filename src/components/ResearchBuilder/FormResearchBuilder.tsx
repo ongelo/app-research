@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
-import { Button, Box, Center, Stack, Title, TextInput } from "@mantine/core";
+import {
+  Button,
+  Box,
+  Center,
+  Stack,
+  Title,
+  TextInput,
+  Text,
+  Divider,
+} from "@mantine/core";
 import { CirclePlus } from "tabler-icons-react";
 import Block from "./Block";
 import { DndProvider } from "react-dnd";
@@ -60,16 +69,24 @@ const Form = () => {
 
   return (
     <>
+      <Title mb="xs">Build your first research</Title>
+      <Text c="gray.7" fz="sm">
+        Add as many blocks as you want and customize them however you like. You
+        can then save your form, and check out the preview before sharing it out
+        with the world.
+      </Text>
+
+      <Divider my="lg" />
+
       {success && <AlertSuccess onClose={() => setSuccess(false)} />}
 
-      <Title order={1} mb="lg">
-        <TextInput
-          name="title"
-          label="Research title"
-          size="lg"
-          {...form.getInputProps("title")}
-        />
-      </Title>
+      <TextInput
+        name="title"
+        label="Research title"
+        size="lg"
+        mb="lg"
+        {...form.getInputProps("title")}
+      />
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Box pb="xl">
@@ -101,7 +118,7 @@ const Form = () => {
           </Center>
         </Box>
 
-        <Button type="submit" size="xl" mb="xl" radius="xs" fullWidth>
+        <Button type="submit" size="xl" mb="xl" fullWidth>
           Save research
         </Button>
       </form>
