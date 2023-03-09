@@ -10,6 +10,7 @@ import {
   Text,
   Divider,
   Group,
+  LoadingOverlay,
 } from "@mantine/core";
 import { CirclePlus } from "tabler-icons-react";
 import Block from "./Block";
@@ -18,6 +19,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import {
   useDisclosure,
   useLocalStorage,
+  useSetState,
   useWindowScroll,
 } from "@mantine/hooks";
 import { BlockType } from "../enums";
@@ -30,7 +32,11 @@ type Props = {
 };
 
 const Form: React.FC<Props> = ({ initialValues }) => {
-  const [success, setSuccess] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useSetState({
+    loading: false,
+    success: false,
+    error: undefined,
+  });
 
   const form = useForm<ResearchBuilderFormValues>({
     initialValues: initialValues ?? {
@@ -49,9 +55,15 @@ const Form: React.FC<Props> = ({ initialValues }) => {
   ] = useDisclosure(false);
 
   const handleSubmit = (values: ResearchBuilderFormValues) => {
+    setSubmissionStatus({
+      loading: true,
+    });
     setResearchForm(values);
-    setSuccess(true);
     scrollTo({ y: 0 });
+    setTimeout(
+      () => setSubmissionStatus({ loading: false, success: true }),
+      2000
+    );
   };
 
   const handleAddBlock = () => {
@@ -83,7 +95,9 @@ const Form: React.FC<Props> = ({ initialValues }) => {
 
   return (
     <>
-      {success && <AlertSuccess onClose={() => setSuccess(false)} />}
+      {submissionStatus.success && (
+        <AlertSuccess onClose={() => setSubmissionStatus({ success: false })} />
+      )}
 
       <Title mb="xs">Build your first research</Title>
       <Text c="gray.7" fz="sm">
@@ -154,6 +168,8 @@ const Form: React.FC<Props> = ({ initialValues }) => {
           onClose={closeResetConfirmation}
         />
       )}
+
+      <LoadingOverlay visible={submissionStatus.loading} overlayBlur={1} />
     </>
   );
 };
