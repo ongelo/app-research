@@ -60,6 +60,8 @@ const Form = () => {
 
   return (
     <>
+      {success && <AlertSuccess onClose={() => setSuccess(false)} />}
+
       <Title order={1} mb="lg">
         <TextInput
           name="title"
@@ -68,8 +70,6 @@ const Form = () => {
           {...form.getInputProps("title")}
         />
       </Title>
-
-      {success && <AlertSuccess onClose={() => setSuccess(false)} />}
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Box pb="xl">
