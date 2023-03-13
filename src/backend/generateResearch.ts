@@ -6,7 +6,7 @@ const generateOpenAiPrompt = ({
   totalQuestions,
   topic,
 }: GenerateResearchRequest) =>
-  `Create a research survey that consists of ${totalQuestions} questions in the form of text input, radio options or dropdown (select) options. The topic of this research is "${topic}". Response should be an array of questions where each question should be in valid JSON format consisting of question label, type of question (text, radio, select).`;
+  `Create a survey with ${totalQuestions} questions in the form of text input and dropdown (select) options. The topic of this research is "${topic}". Response is an array of questions where each question is in valid JSON format consisting of question label, type (text, select), options (if select)`;
 
 export type GeneratedFormField = {
   id: string;

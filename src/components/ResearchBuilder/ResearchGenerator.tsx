@@ -14,7 +14,7 @@ import { useMutation } from "react-query";
 import { AlertCircle } from "tabler-icons-react";
 
 const DEFAULT_TOPIC =
-  "This research aims to compare people's tendency to order fast food based on the restaurant's logo color.";
+  "People's tendency to order fast food based on the restaurant's logo color.";
 
 type Props = {
   onAiGenerated: (generatedFormFields: GeneratedFormField[]) => void;
