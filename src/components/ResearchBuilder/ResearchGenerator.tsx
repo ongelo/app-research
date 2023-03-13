@@ -31,7 +31,12 @@ const generateFormFields = async (values: GenerateResearchRequest) => {
 
 const getErrorMessage = (error?: AxiosError) => {
   const errorData = error?.response?.data;
-  return (errorData as { message?: string })?.message;
+  if (errorData) {
+    return (
+      (errorData as { message?: string })?.message ??
+      "Something went wrong. Please try again later."
+    );
+  }
 };
 
 const ResearchGenerator: React.FC<Props> = ({ onAiGenerated }) => {
