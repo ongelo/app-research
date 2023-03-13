@@ -1,14 +1,33 @@
-import { GenerateResearchRequest } from "@/backend/generateResearch";
+import {
+  GeneratedFormField,
+  GenerateResearchRequest,
+} from "@/backend/generateResearch";
 import { Button, NumberInput, Stack, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
-import { useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const DEFAULT_TOPIC =
   "This research aims to compare people's tendency to order fast food based on the restaurant's logo color.";
 
-const ResearchGenerator = () => {
-  const queryClient = useQueryClient();
+type Props = {
+  onAiGenerated: (generatedFormFields: GeneratedFormField[]) => void;
+};
+
+const generateFormFields = async (values: GenerateResearchRequest) => {
+  const { data: fields } = await axios.post<GeneratedFormField[]>(
+    "/api/generate",
+    values
+  );
+
+  return fields;
+};
+
+const ResearchGenerator: React.FC<Props> = ({ onAiGenerated }) => {
+  const { mutate, isLoading } = useMutation("generate", generateFormFields, {
+    onSuccess: onAiGenerated,
+  });
+
   const form = useForm<GenerateResearchRequest>({
     initialValues: {
       totalQuestions: 2,
@@ -17,13 +36,7 @@ const ResearchGenerator = () => {
   });
 
   const handleSubmit = async (values: GenerateResearchRequest) => {
-    await queryClient.fetchQuery({
-      queryFn: async () => {
-        const response = await axios.post("/api/generate", values);
-        console.log({ response });
-      },
-      queryKey: "generate",
-    });
+    mutate(values);
   };
 
   return (
@@ -42,7 +55,9 @@ const ResearchGenerator = () => {
           size="lg"
           {...form.getInputProps("totalQuestions")}
         />
-        <Button type="submit">Generate</Button>
+        <Button type="submit" loading={isLoading}>
+          Generate
+        </Button>
       </Stack>
     </form>
   );

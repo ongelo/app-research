@@ -50,7 +50,6 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
             <TextInput
               name={`${id}.details.label`}
               label="Question label"
-              placeholder="Enter person name"
               {...form.getInputProps(`${id}.details.label`)}
             />
           </Grid.Col>
@@ -58,7 +57,6 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
             <TextInput
               name={`${id}.details.placeholder`}
               label="Question placeholder"
-              placeholder="Jack Smith"
               {...form.getInputProps(`${id}.details.placeholder`)}
             />
           </Grid.Col>

@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import openai from "./openai";
 
 const generateOpenAiPrompt = ({
@@ -11,13 +12,16 @@ export type GenerateResearchRequest = {
   topic: string;
 };
 
-type GeneratedFormField = {
+export type GeneratedFormField = {
+  id: string;
   label: string;
   type: "text" | "radio" | "select";
   options?: string[];
 };
 
-const generateResearch = async (request: GenerateResearchRequest) => {
+const generateResearch = async (
+  request: GenerateResearchRequest
+): Promise<GeneratedFormField[]> => {
   const prompt = generateOpenAiPrompt(request);
 
   const { data: generated } = await openai.createCompletion({
@@ -32,7 +36,7 @@ const generateResearch = async (request: GenerateResearchRequest) => {
     ? JSON.parse(generatedText)
     : [];
 
-  return generatedFormFields;
+  return generatedFormFields.map((field) => ({ ...field, id: randomUUID() }));
 };
 
 export default generateResearch;

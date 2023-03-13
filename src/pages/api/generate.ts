@@ -5,6 +5,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const research = await generateResearch(req.body);
-  res.status(200).json({ research });
+  const fields = await generateResearch(req.body);
+  res.status(200).json(fields);
 }

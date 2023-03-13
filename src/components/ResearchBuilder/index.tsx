@@ -1,6 +1,16 @@
+import { GeneratedFormField } from "@/backend/generateResearch";
+import { Button, Group } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { BlockType } from "../enums";
 import FormResearchBuilder from "./FormResearchBuilder";
+import ResearchGenerator from "./ResearchGenerator";
+
+enum BuildOption {
+  Ai,
+  New,
+  Load,
+}
 
 const validateResearchForm = (researchForm?: ResearchBuilderFormValues) => {
   if (
@@ -14,32 +24,71 @@ const validateResearchForm = (researchForm?: ResearchBuilderFormValues) => {
 };
 
 const ResearchBuilder = () => {
-  const [showForm, setShowForm] = useState(false);
+  const [buildOption, setBuildOption] = useState<BuildOption | null>(null);
+  const [aiGenerated, setAiGenerated] = useState<
+    ResearchBuilderFormValues | undefined
+  >(undefined);
 
-  const [researchForm, setResearchForm] = useLocalStorage<
+  const [previousResearchForm, setResearchForm] = useLocalStorage<
     ResearchBuilderFormValues | undefined
   >({
     key: "researchForm",
   });
 
-  useEffect(() => {
-    const waitAndSetShowForm = () => {
-      try {
-        validateResearchForm(researchForm);
-        if (researchForm) {
-          setShowForm(true);
-        } else {
-          setTimeout(() => setShowForm(true), 1000);
-        }
-      } catch (ex) {
-        setResearchForm(undefined);
-      }
-    };
+  const BLOCK_TYPES_MAP = {
+    text: BlockType.InputText,
+    radio: BlockType.InputSelect,
+    select: BlockType.InputSelect,
+  };
 
-    waitAndSetShowForm();
-  }, [researchForm, setResearchForm]);
+  const handleAiGenerated = (generatedFormFields: GeneratedFormField[]) => {
+    setAiGenerated({
+      title: "AI generated research",
+      blocks: generatedFormFields.map((field) => ({
+        id: field.id,
+        type: BLOCK_TYPES_MAP[field.type],
+        details: {
+          label: field.label,
+          options: field.options,
+        },
+      })),
+    });
+    setBuildOption(BuildOption.New);
+  };
 
-  return showForm ? <FormResearchBuilder initialValues={researchForm} /> : null;
+  if (buildOption === null) {
+    return (
+      <Group spacing="lg" position="center" pt="lg">
+        <Button
+          color="violet"
+          size="lg"
+          onClick={() => setBuildOption(BuildOption.Ai)}
+        >
+          Generate with AI
+        </Button>
+        <Button size="lg" onClick={() => setBuildOption(BuildOption.New)}>
+          Create manually
+        </Button>
+        <Button
+          variant="outline"
+          size="lg"
+          onClick={() => setBuildOption(BuildOption.Load)}
+        >
+          Load previous
+        </Button>
+      </Group>
+    );
+  }
+
+  if (buildOption === BuildOption.Ai) {
+    return <ResearchGenerator onAiGenerated={handleAiGenerated} />;
+  }
+
+  if (buildOption === BuildOption.Load) {
+    return <FormResearchBuilder initialValues={previousResearchForm} />;
+  }
+
+  return <FormResearchBuilder initialValues={aiGenerated} />;
 };
 
 export default ResearchBuilder;
