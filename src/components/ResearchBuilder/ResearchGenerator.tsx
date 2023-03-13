@@ -53,6 +53,7 @@ const ResearchGenerator: React.FC<Props> = ({ onAiGenerated }) => {
           name="totalQuestions"
           label="Enter number of questions to generate"
           size="lg"
+          max={8}
           {...form.getInputProps("totalQuestions")}
         />
         <Button type="submit" loading={isLoading}>
