@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios, { AxiosError } from "axios";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { AlertCircle } from "tabler-icons-react";
 
 const DEFAULT_TOPIC =
@@ -42,7 +42,7 @@ const ResearchGenerator: React.FC<Props> = ({ onAiGenerated }) => {
       onSuccess: onAiGenerated,
     }
   );
-  const errorMessage = getErrorMessage(error);
+  const errorMessage = getErrorMessage(error as AxiosError);
 
   const form = useForm<GenerateResearchRequest>({
     initialValues: {

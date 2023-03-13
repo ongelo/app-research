@@ -1,4 +1,4 @@
-import { Button, Group, Modal, Text } from "@mantine/core";
+import { Button, Group, Modal } from "@mantine/core";
 
 type Props = {
   onConfirm: () => void;
