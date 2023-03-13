@@ -10,16 +10,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const request = req.body as GenerateResearchRequest;
+  if (req.method === "POST") {
+    const request = req.body as GenerateResearchRequest;
 
-  if (request.totalQuestions > 8) {
-    res
-      .status(400)
-      .json({
+    if (request.totalQuestions > 8) {
+      res.status(400).json({
         message: "More than 8 questions for a survey is not recommended.",
       });
+    }
+
+    const fields = await generateResearch(req.body);
+    return res.status(200).json(fields);
   }
 
-  const fields = await generateResearch(req.body);
-  res.status(200).json(fields);
+  return res.status(200);
 }
