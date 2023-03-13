@@ -1,4 +1,4 @@
-import { Grid, Select, Textarea, TextInput } from "@mantine/core";
+import { Button, Grid, Select, Textarea, TextInput } from "@mantine/core";
 import CodeEditor from "./CodeEditor";
 import { BlockType } from "../enums";
 import { UseFormReturnType } from "@mantine/form";
@@ -16,6 +16,11 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
   const blockType = form.getInputProps(`${id}.type`).value as BlockType;
   const selectOptions = form.getInputProps(`${id}.details.options`)
     .value as string[];
+
+  const handleAddOption = () => {
+    form.setFieldValue(`${id}.details.options`, [...selectOptions, ""]);
+  };
+
   return (
     <Grid>
       <Grid.Col span={12}>
@@ -73,6 +78,11 @@ const FormBlock: React.FC<Props> = ({ id, form }) => {
           />
         </Grid.Col>
       ))}
+      {isSelectInputType(blockType) && (
+        <Button variant="subtle" onClick={handleAddOption}>
+          Add option
+        </Button>
+      )}
 
       {isCodeInputType(blockType) && (
         <Grid.Col span={12}>
