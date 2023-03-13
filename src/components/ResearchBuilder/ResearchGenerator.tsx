@@ -1,11 +1,17 @@
+import { GeneratedFormField } from "@/backend/generateResearch";
+import { GenerateResearchRequest } from "@/pages/api/generate";
 import {
-  GeneratedFormField,
-  GenerateResearchRequest,
-} from "@/backend/generateResearch";
-import { Button, NumberInput, Stack, TextInput, Title } from "@mantine/core";
+  Alert,
+  Button,
+  NumberInput,
+  Stack,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { AlertCircle } from "tabler-icons-react";
 
 const DEFAULT_TOPIC =
   "This research aims to compare people's tendency to order fast food based on the restaurant's logo color.";
@@ -23,10 +29,20 @@ const generateFormFields = async (values: GenerateResearchRequest) => {
   return fields;
 };
 
+const getErrorMessage = (error?: AxiosError) => {
+  const errorData = error?.response?.data;
+  return (errorData as { message?: string })?.message;
+};
+
 const ResearchGenerator: React.FC<Props> = ({ onAiGenerated }) => {
-  const { mutate, isLoading } = useMutation("generate", generateFormFields, {
-    onSuccess: onAiGenerated,
-  });
+  const { mutate, isLoading, error } = useMutation(
+    "generate",
+    generateFormFields,
+    {
+      onSuccess: onAiGenerated,
+    }
+  );
+  const errorMessage = getErrorMessage(error);
 
   const form = useForm<GenerateResearchRequest>({
     initialValues: {
@@ -56,6 +72,15 @@ const ResearchGenerator: React.FC<Props> = ({ onAiGenerated }) => {
           max={8}
           {...form.getInputProps("totalQuestions")}
         />
+        {Boolean(errorMessage) && (
+          <Alert
+            icon={<AlertCircle size="1rem" />}
+            title="Cannot generate research"
+            color="red"
+          >
+            {errorMessage}
+          </Alert>
+        )}
         <Button type="submit" loading={isLoading}>
           Generate
         </Button>

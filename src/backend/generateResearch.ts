@@ -1,3 +1,4 @@
+import { GenerateResearchRequest } from "@/pages/api/generate";
 import { randomUUID } from "crypto";
 import openai from "./openai";
 
@@ -6,11 +7,6 @@ const generateOpenAiPrompt = ({
   topic,
 }: GenerateResearchRequest) =>
   `Create a research survey that consists of ${totalQuestions} questions in the form of text input, radio options or dropdown (select) options. The topic of this research is "${topic}". Response should be an array of questions where each question should be in valid JSON format consisting of question label, type of question (text, radio, select).`;
-
-export type GenerateResearchRequest = {
-  totalQuestions: number;
-  topic: string;
-};
 
 export type GeneratedFormField = {
   id: string;
